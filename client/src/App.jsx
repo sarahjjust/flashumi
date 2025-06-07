@@ -1,36 +1,53 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { getFlashcardById, getFlashcardList, addFlashcard, updateFlashcard, deleteCardById } from './ApiCalls';
 
-async function fetchFlashcards(setFlashcards) {
-  const res = await fetch('/api/flashcards/getlist');
-  if (res.ok) {
-    const data = await res.json();
-    setFlashcards(data);
-  } else {
-    console.error('Failed to fetch flashcards');
+function FlashcardView() {
+  const { id } = useParams();
+  const [flashcard, setFlashcard] = useState({ id: '', question: '', answer: '' });
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const fetchFlashcard = async () => {
+      await getFlashcardById(id, setFlashcard);
+    };
+    fetchFlashcard();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const ok = await updateFlashcard(flashcard.id, flashcard.question, flashcard.answer);
+
+    if (ok) {
+      await getFlashcardById(id, setFlashcard);
+      setMessage('Flashcard updated!');
+    } else {
+      setMessage('There was a problem updating the card...');
+    }
   }
-}
 
-async function deleteCardById(id, setFlashcards) {
-  const res = await fetch('/api/flashcards/deletecard/id', {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id }),
-  });
-
-  if (res.ok) {
-    const data = await res.json();
-    console.log('Deleted card:', data);
-    fetchFlashcards(setFlashcards);
-  } else {
-    const error = await res.json();
-    console.error('Error deleting card:', error);
-  }
+  return <div>
+    <form onSubmit={handleSubmit}>
+      <input
+        placeholder="Question"
+        value={flashcard.question}
+        onChange={(e) => setFlashcard({ ...flashcard, question: e.target.value })}
+      />
+      <input
+        placeholder="Answer"
+        value={flashcard.answer}
+        onChange={(e) => setFlashcard({ ...flashcard, answer: e.target.value })}
+      />
+      <button type="submit">Save</button>
+    </form>
+    <p>{message}</p>
+    <Link to="/">Home</Link>
+  </div>;
 }
 
 function FlashcardList({flashcards, setFlashcards}) {
   useEffect(() => {
-    fetchFlashcards(setFlashcards);
+    getFlashcardList(setFlashcards);
   }, []);
   
   if (!flashcards.length) {
@@ -43,7 +60,9 @@ function FlashcardList({flashcards, setFlashcards}) {
       <ul>
         {flashcards.map((card, index) => (
           <li key={index}>
-            {card.id} - {card.question}:{card.answer}
+            <Link to={`/flashcard/${card.id}`}>
+              {card.id} - {card.question}:{card.answer}
+            </Link>
             <button onClick={() => deleteCardById(card.id, setFlashcards)}>del</button>
           </li>
         ))}
@@ -61,20 +80,15 @@ function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch('/api/flashcards/addcard', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question, answer }),
-    });
+    const ok = await addFlashcard(question, answer);
 
-    if (res.ok) {
+    if (ok) {
       setMessage('Flashcard added!');
       setQuestion('');
       setAnswer('');
-      fetchFlashcards(setFlashcards);
+      getFlashcardList(setFlashcards);
     } else {
-      const error = await res.json();
-      setMessage('Error: ' + error.error);
+      setMessage('There was a problem adding the card...');
     }
   };
 
@@ -107,6 +121,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/flashcard/:id" element={<FlashcardView />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
