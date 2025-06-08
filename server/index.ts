@@ -53,15 +53,15 @@ app.post('/api/flashcards/addcard', async (req, res) => {
 });
 
 app.post('/api/flashcards/updatecard', async (req, res) => {
-  const { id, question, answer } = req.body;
-  if (!id || !question || !answer) {
-    return res.status(400).json({ error: 'Missing card ID, question or answer' });
+  const card: Card = req.body;
+  if (!card.id) {
+    return res.status(400).json({ error: 'Missing card ID' });
   }
 
   try {
     const result = await pool.query(
-      'UPDATE flashcards SET question = $1, answer = $2 WHERE id = $3 RETURNING *',
-      [question, answer, id]
+      'UPDATE flashcards SET question = $1, answer = $2, deck_id = $3 WHERE id = $4 RETURNING *',
+      [card.question, card.answer, card.deck_id, card.id]
     );
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Card not found' });
