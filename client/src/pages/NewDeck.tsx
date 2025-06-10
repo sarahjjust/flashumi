@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { addDeck, getDeckList } from '../ApiCalls';
 import { Deck } from '../../../common/types/Deck';
-import { DeckList } from './DeckList';
+import { DeckList } from '../components/DeckList';
 
 export function NewDeck() {
   const [deckName, setDeckName] = useState('');

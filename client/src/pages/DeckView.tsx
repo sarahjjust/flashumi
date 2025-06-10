@@ -1,12 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getDeckById, updateDeck } from '../ApiCalls';
+import { getDeckById, getFlashcardListByDeckId, updateDeck } from '../ApiCalls';
+import { Card } from '../../../common/types/Card';
 import { Deck } from '../../../common/types/Deck';
+import { FlashcardsInDeckList } from '../components/FlashcardsInDeckList';
+import { AddFlashcard } from '../components/AddFlashcard';
 
 export function DeckView() {
   const id = parseInt(useParams().id!);
   const [deck, setDeck] = useState(new Deck(''));
   const [message, setMessage] = useState('');
+  const [flashcards, setFlashcards] = useState([] as Card[]);
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -37,6 +41,8 @@ export function DeckView() {
       <button type="submit">Save</button>
     </form>
     <p>{message}</p>
+    <AddFlashcard onAdd={ async () => { await getFlashcardListByDeckId(id, setFlashcards); } } deck={id} />
     <Link to="/">Home</Link>
+    <FlashcardsInDeckList flashcards={flashcards} setFlashcards={setFlashcards} deckId={id} />
   </div>;
 }

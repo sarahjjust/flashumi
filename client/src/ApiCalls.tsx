@@ -33,6 +33,16 @@ export async function getFlashcardList(setFlashcards: (cards: Card[]) => void) {
   }
 }
 
+export async function getFlashcardListByDeckId(deckId: number, setFlashcards: (cards: Card[]) => void) {
+  const res = await fetch(`/api/flashcards/getlist/deck/${deckId}`);
+  if (res.ok) {
+    const data = await res.json();
+    setFlashcards(data as Card[]);
+  } else {
+    console.error('Failed to fetch flashcards for deck:', deckId);
+  }
+}
+
 export async function getDeckList(setDecks: (decks: Deck[]) => void) {
   const res = await fetch('/api/decks/getlist');
   if (res.ok) {
