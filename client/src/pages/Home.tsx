@@ -35,7 +35,7 @@ export function Home() {
   const [message, setMessage] = useState('');
   const [flashcards, setFlashcards] = useState([] as Card[]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const ok = await addFlashcard(new Card(question, answer));
