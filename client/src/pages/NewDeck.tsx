@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useState } from 'react';
 import { addDeck, getDeckList } from '../ApiCalls';
 import { Deck } from '../../../common/types/Deck';
-import { DeckList } from '../components/DeckList';
+import { DeckList } from '../functionality/DeckList';
 
 export function NewDeck() {
   const [deckName, setDeckName] = useState('');

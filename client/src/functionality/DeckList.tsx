@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { getDeckList, deleteDeckById } from "../ApiCalls";
 
 export function DeckList({decks, setDecks}) {

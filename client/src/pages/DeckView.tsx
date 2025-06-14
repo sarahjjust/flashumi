@@ -1,10 +1,10 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getDeckById, getFlashcardListByDeckId, updateDeck } from '../ApiCalls';
 import { Card } from '../../../common/types/Card';
 import { Deck } from '../../../common/types/Deck';
-import { FlashcardsInDeckList } from '../components/FlashcardsInDeckList';
-import { AddFlashcard } from '../components/AddFlashcard';
+import { FlashcardsInDeckList } from '../functionality/FlashcardsInDeckList';
+import { AddFlashcard } from '../functionality/AddFlashcard';
 
 export function DeckView() {
   const id = parseInt(useParams().id!);

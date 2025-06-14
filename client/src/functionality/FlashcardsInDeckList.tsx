@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { getFlashcardListByDeckId } from "../ApiCalls";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function FlashcardsInDeckList({flashcards, setFlashcards, deckId}) {
   useEffect(() => {

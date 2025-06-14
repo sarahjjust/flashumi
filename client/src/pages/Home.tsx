@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getFlashcardList, addFlashcard, deleteCardById } from '../ApiCalls';
 import { Card } from '../../../common/types/Card';
-import { AddFlashcard } from '../components/AddFlashcard';
+import { AddFlashcard } from '../functionality/AddFlashcard';
 
 function FlashcardList({flashcards, setFlashcards}) {
   useEffect(() => {
