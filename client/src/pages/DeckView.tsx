@@ -19,7 +19,7 @@ export function DeckView() {
     fetchDeck();
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = await updateDeck(deck);
 

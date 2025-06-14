@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { addFlashcard } from "../ApiCalls";
 import { Card } from "../../../common/types/Card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export function AddFlashcard({onAdd, deck}) {
+type AddFlashcardProps = {
+  onAdd: () => void;
+  deck: number | null;
+};
+
+export function AddFlashcard({onAdd, deck}: AddFlashcardProps) {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [message, setMessage] = useState('');
@@ -24,17 +31,17 @@ export function AddFlashcard({onAdd, deck}) {
 
   return <div>
     <form onSubmit={handleSubmit}>
-      <input
+      <Input
         placeholder="Question"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
       />
-      <input
+      <Input
         placeholder="Answer"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
       />
-      <button type="submit">Add</button>
+      <Button type="submit" className="cursor-pointer">Add</Button>
     </form>
     <p>{message}</p>
   </div>

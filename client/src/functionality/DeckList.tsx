@@ -1,8 +1,22 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { getDeckList, deleteDeckById } from "../ApiCalls";
+import { Deck } from "../../../common/types/Deck";
+import { Card as CardComponent, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-export function DeckList({decks, setDecks}) {
+type DeckListProps = {
+  decks: Deck[];
+  setDecks: React.Dispatch<React.SetStateAction<Deck[]>>;
+};
+
+function delDeck(deck: Deck, setDecks: React.Dispatch<React.SetStateAction<Deck[]>>) {
+  if (deck.id !== null) {
+    deleteDeckById(deck.id, setDecks);
+  }
+}
+
+export function DeckList({decks, setDecks}: DeckListProps) {
   useEffect(() => {
     getDeckList(setDecks);
   }, []);
@@ -16,12 +30,21 @@ export function DeckList({decks, setDecks}) {
       <h2>Decks</h2>
       <ul>
         {decks.map((deck, index) => (
-          <li key={index}>
-            <Link to={`/deck/${deck.id}`}>
-              {deck.id} - {deck.name}
-            </Link>
-            <button onClick={() => deleteDeckById(deck.id, setDecks)}>del</button>
-          </li>
+          <CardComponent key={index} className="bg-white dark:bg-gray-900">
+            <CardContent>
+              <p>{deck.name}</p>
+            </CardContent>
+            <CardFooter>
+              <Button size="sm" variant="outline">
+                <Link to={`/deck/${deck.id}`}>
+                  Edit
+                </Link>
+              </Button>
+              <Button onClick={ () => { delDeck(deck, setDecks) } } size="sm" variant="destructive" className="ml-2">
+                Delete
+              </Button>
+            </CardFooter>
+          </CardComponent>
         ))}
       </ul>
     </div>
