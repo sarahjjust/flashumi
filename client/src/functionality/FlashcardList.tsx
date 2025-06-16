@@ -29,7 +29,7 @@ export function FlashcardList({flashcards, setFlashcards}: FlashcardListProps) {
   return (
     <div>
       <h2>Flashcards</h2>
-      <ScrollArea className="h-96 w-200 rounded-md border p-4">
+      <ScrollArea className="h-200 w-200 rounded-md border p-4">
         <ul>
           {flashcards.map((card, index) => (
             <CardComponent key={index} className="bg-white dark:bg-gray-900">

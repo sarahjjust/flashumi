@@ -4,7 +4,7 @@ import { addDeck, getDeckList } from '../ApiCalls';
 import { Deck } from '../../../common/types/Deck';
 import { DeckList } from '../functionality/DeckList';
 
-export function NewDeck() {
+export function Decks() {
   const [deckName, setDeckName] = useState('');
   const [message, setMessage] = useState('');
   const [decks, setDecks] = useState([] as Deck[]);

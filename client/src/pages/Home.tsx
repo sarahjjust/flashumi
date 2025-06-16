@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import { useState } from 'react';
 import { getFlashcardList} from '../ApiCalls';
 import { Card } from '../../../common/types/Card';
-import { AddFlashcard } from '../functionality/AddFlashcard';
+import { AddFlashcardDialog } from '../functionality/AddFlashcardDialog';
 import { FlashcardList } from '../functionality/FlashcardList';
 import { Button } from '@/components/ui/button';
 
@@ -12,9 +12,9 @@ export function Home() {
   return <div>
     <h1 className='scroll-m-20 text-4xl font-extrabold tracking-tight text-balance'>Flashumi</h1>
     <Button asChild>
-      <Link to="/newdeck">Create a New Deck</Link>
+      <Link to="/decks">Create a New Deck</Link>
     </Button>
-    <AddFlashcard onAdd={ async () => { await getFlashcardList(setFlashcards); } } deck={null} />
+    <AddFlashcardDialog onAdd={ async () => { await getFlashcardList(setFlashcards); } } deck={null} />
     <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} />
   </div>
 }
