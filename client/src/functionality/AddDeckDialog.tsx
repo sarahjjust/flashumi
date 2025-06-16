@@ -1,61 +1,50 @@
 import { useState } from "react";
-import { addFlashcard } from "../ApiCalls";
-import { Card } from "../../../common/types/Card";
+import { addDeck } from "../ApiCalls";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Deck } from "../../../common/types/Deck";
 
-type AddFlashcardProps = {
+type AddDeckProps = {
   onAdd: () => void;
-  deck: number | null;
 };
 
-export function AddFlashcardDialog({onAdd, deck}: AddFlashcardProps) {
-  const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
+export function AddDeckDialog({onAdd}: AddDeckProps) {
+  const [name, setName] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const ok = await addFlashcard(new Card(question, answer, null, deck));
+    const ok = await addDeck(new Deck(name));
 
     if (ok) {
-      setMessage('Flashcard added!');
-      setQuestion('');
-      setAnswer('');
+      setMessage('Deck added!');
+      setName('');
       onAdd();
     } else {
-      setMessage('There was a problem adding the card...');
+      setMessage('There was a problem adding the deck...');
     }
   };
 
   return <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Flashcard</Button>
+        <Button variant="outline">New Deck</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Flashcard</DialogTitle>
+          <DialogTitle>Create A New Deck</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Enter flashcard information.</DialogDescription>
+        <DialogDescription>Enter deck name.</DialogDescription>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="front">Front</Label>
               <Input
-                placeholder="Question"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="back">Back</Label>
-              <Input
-                placeholder="Answer"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="grid gap-3">
