@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Link } from "react-router";
 import { deleteCardById, getFlashcardList } from "@/ApiCalls";
 import type { Card } from "../../../common/types/Card";
 import { ScrollArea } from "@/components/ui/scroll-area";

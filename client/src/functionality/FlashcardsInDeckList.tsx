@@ -28,7 +28,7 @@ export function FlashcardsInDeckList({flashcards, setFlashcards, deckId}: Flashc
 
   return (
     <div>
-      <h2>Flashcards</h2>
+      <h2 className="text-xl my-4">Flashcards</h2>
       <ul>
         {flashcards.map((card, index) => (
           <CardComponent key={index} className="bg-white dark:bg-gray-900">

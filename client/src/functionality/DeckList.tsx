@@ -4,6 +4,7 @@ import { Deck } from "../../../common/types/Deck";
 import { Card as CardComponent, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EditDeckDialog } from "./EditDeckDialog";
+import { Link } from "react-router";
 
 type DeckListProps = {
   decks: Deck[];
@@ -35,6 +36,11 @@ export function DeckList({decks, setDecks}: DeckListProps) {
               <p>{deck.id} - {deck.name}</p>
             </CardContent>
             <CardFooter>
+              <Button asChild>
+                <Link to={`/deck/${deck.id}`}>
+                  View
+                </Link>
+              </Button>
               <EditDeckDialog deck={deck} onEdit={() => getDeckList(setDecks)} />
               <Button onClick={ () => { delDeck(deck, setDecks) } } size="sm" variant="destructive" className="ml-2">
                 Delete
