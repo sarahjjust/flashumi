@@ -1,38 +1,41 @@
 import { useState } from "react";
-import { updateDeck } from "../ApiCalls";
+import { updateFlashcard } from "../ApiCalls";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Deck } from "../../../common/types/Deck";
+import { Card } from "../../../common/types/Card";
 
-type EditDeckProps = {
-  deck: Deck;
+type EditFlashcardProps =
+{
+  card: Card;
   onEdit: () => void;
 };
 
-export function EditDeckDialog({deck, onEdit}: EditDeckProps) {
-  const [name, setName] = useState(deck.name);
+export function EditFlashcardDialog({card, onEdit}: EditFlashcardProps) {
+  const [question, setQuestion] = useState(card.question);
+  const [answer, setAnswer] = useState(card.answer);
   const [message, setMessage] = useState('');
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const ok = await updateDeck(new Deck(name, deck.id));
+    const ok = await updateFlashcard(new Card(question, answer, card.id));
 
     if (ok) {
       setMessage('Deck added!');
       onEdit();
     } else {
-      setMessage('There was a problem adding the deck...');
+      setMessage('There was a problem adding the card...');
     }
 
     setOpen(false);
   };
 
   const handleOpenChange = () => {
-    setName(deck.name);
+    setQuestion(card.question);
+    setAnswer(card.answer);
     setMessage('');
     setOpen(!open);
   };
@@ -43,17 +46,25 @@ export function EditDeckDialog({deck, onEdit}: EditDeckProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Deck</DialogTitle>
+          <DialogTitle>Edit Flashcard</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Enter new deck name.</DialogDescription>
+        <DialogDescription>Enter new card name.</DialogDescription>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name">Deck Name</Label>
+              <Label htmlFor="question">Question</Label>
               <Input
-                placeholder={deck.name}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder={card.question}
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="answer">Answer</Label>
+              <Input
+                placeholder={card.answer}
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
               />
             </div>
             <div className="grid gap-3">

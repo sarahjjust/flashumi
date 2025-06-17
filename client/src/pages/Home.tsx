@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button';
 export function Home() {
   const [flashcards, setFlashcards] = useState([] as Card[]);
 
-  return <div>
-    <h1 className='scroll-m-20 text-4xl font-extrabold tracking-tight text-balance'>Flashumi</h1>
+  return <div className="mx-8">
+    <h1 className="scroll-m-20 text-4xl my-6 font-extrabold tracking-tight text-balance">FlashMe!</h1>
     <Button asChild>
       <Link to="/decks">Create a New Deck</Link>
     </Button>
