@@ -28,7 +28,12 @@ export function AddDeckDialog({onAdd}: AddDeckProps) {
     }
   };
 
-  return <Dialog>
+  const handleClose = () => {
+    setName('');
+    setMessage('');
+  };
+
+  return <Dialog onOpenChange={handleClose}>
       <DialogTrigger asChild>
         <Button variant="outline">New Deck</Button>
       </DialogTrigger>

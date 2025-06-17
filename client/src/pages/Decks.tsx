@@ -10,8 +10,8 @@ export function Decks() {
   const [decks, setDecks] = useState([] as Deck[]);
 
   return (
-    <div>
-      <h1>Create a New Deck</h1>
+    <div className="mx-8">
+      <h1 className="text-2xl my-6">Create a New Deck</h1>
       <AddDeckDialog onAdd={() => getDeckList(setDecks)} />
       <Button asChild>
         <Link to="/">Home</Link>

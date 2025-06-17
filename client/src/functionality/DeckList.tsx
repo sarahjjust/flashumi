@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Link } from "react-router";
 import { getDeckList, deleteDeckById } from "../ApiCalls";
 import { Deck } from "../../../common/types/Deck";
 import { Card as CardComponent, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { EditDeckDialog } from "./EditDeckDialog";
 
 type DeckListProps = {
   decks: Deck[];
@@ -27,19 +27,15 @@ export function DeckList({decks, setDecks}: DeckListProps) {
 
   return (
     <div>
-      <h2>Decks</h2>
+      <h2 className="text-xl my-4">Decks</h2>
       <ul>
         {decks.map((deck, index) => (
           <CardComponent key={index} className="bg-white dark:bg-gray-900">
             <CardContent>
-              <p>{deck.name}</p>
+              <p>{deck.id} - {deck.name}</p>
             </CardContent>
             <CardFooter>
-              <Button size="sm" variant="outline">
-                <Link to={`/deck/${deck.id}`}>
-                  Edit
-                </Link>
-              </Button>
+              <EditDeckDialog deck={deck} onEdit={() => getDeckList(setDecks)} />
               <Button onClick={ () => { delDeck(deck, setDecks) } } size="sm" variant="destructive" className="ml-2">
                 Delete
               </Button>

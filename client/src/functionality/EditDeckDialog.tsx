@@ -1,67 +1,60 @@
 import { useState } from "react";
-import { addFlashcard } from "../ApiCalls";
-import { Card } from "../../../common/types/Card";
+import { updateDeck } from "../ApiCalls";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Deck } from "../../../common/types/Deck";
 
-type AddFlashcardProps = {
-  onAdd: () => void;
-  deck: number | null;
+type EditDeckProps = {
+  deck: Deck;
+  onEdit: () => void;
 };
 
-export function AddFlashcardDialog({onAdd, deck}: AddFlashcardProps) {
-  const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
+export function EditDeckDialog({deck, onEdit}: EditDeckProps) {
+  const [name, setName] = useState(deck.name);
   const [message, setMessage] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const ok = await addFlashcard(new Card(question, answer, null, deck));
+    const ok = await updateDeck(new Deck(name, deck.id));
 
     if (ok) {
-      setMessage('Flashcard added!');
-      setQuestion('');
-      setAnswer('');
-      onAdd();
+      setMessage('Deck added!');
+      setName('');
+      onEdit();
     } else {
-      setMessage('There was a problem adding the card...');
+      setMessage('There was a problem adding the deck...');
     }
+
+    setOpen(false);
   };
 
-  const handleClose = () => {
-    setQuestion('');
-    setAnswer('');
+  const handleOpenChange = () => {
+    setName(deck.name);
     setMessage('');
+    setOpen(!open);
   };
 
-  return <Dialog onOpenChange={handleClose}>
+  return <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Flashcard</Button>
+        <Button variant="outline">Edit</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Flashcard</DialogTitle>
+          <DialogTitle>Edit Deck</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Enter flashcard information.</DialogDescription>
+        <DialogDescription>Enter new deck name.</DialogDescription>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="front">Front</Label>
+              <Label htmlFor="name">Deck Name</Label>
               <Input
-                placeholder="Question"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="back">Back</Label>
-              <Input
-                placeholder="Answer"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
+                placeholder={deck.name}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="grid gap-3">
