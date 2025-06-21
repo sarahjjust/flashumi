@@ -8,18 +8,18 @@ import { EditFlashcardDialog } from "./EditFlashcardDialog";
 
 type FlashcardListProps = {
   flashcards: Card[];
-  setFlashcards: React.Dispatch<React.SetStateAction<Card[]>>;
+  onUpdate: () => void;
 };
 
-function delCard(card: Card, setFlashcards: React.Dispatch<React.SetStateAction<Card[]>>) {
+function delCard(card: Card, onUpdate: () => void) {
   if (card.id !== null) {
-    deleteCardById(card.id, setFlashcards);
+    deleteCardById(card.id, onUpdate);
   }
 }
 
-export function FlashcardList({flashcards, setFlashcards}: FlashcardListProps) {
+export function FlashcardList({flashcards, onUpdate}: FlashcardListProps) {
   useEffect(() => {
-    getFlashcardList(setFlashcards);
+    onUpdate();
   }, []);
   
   if (!flashcards.length) {
@@ -39,8 +39,8 @@ export function FlashcardList({flashcards, setFlashcards}: FlashcardListProps) {
                 <p>Deck: {card.deck}</p>
               </CardContent>
               <CardFooter>
-                <EditFlashcardDialog card={card} onEdit={ () => getFlashcardList(setFlashcards) } />
-                <Button onClick={ () => { delCard(card, setFlashcards) } } size="sm" variant="destructive" className="ml-2">
+                <EditFlashcardDialog card={card} onEdit={ onUpdate } />
+                <Button onClick={ () => { delCard(card, onUpdate) } } size="sm" variant="destructive" className="ml-2">
                   Delete
                 </Button>
               </CardFooter>

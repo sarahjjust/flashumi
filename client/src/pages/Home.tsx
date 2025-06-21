@@ -15,6 +15,6 @@ export function Home() {
       <Link to="/decks">Create a New Deck</Link>
     </Button>
     <AddFlashcardDialog onAdd={ async () => { await getFlashcardList(setFlashcards); } } deck={null} />
-    <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} />
+    <FlashcardList flashcards={flashcards} onUpdate={() => getFlashcardList(setFlashcards)} />
   </div>
 }

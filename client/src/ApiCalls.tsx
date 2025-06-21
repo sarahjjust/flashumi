@@ -125,7 +125,7 @@ export async function updateDeck(deck: Deck): Promise<boolean> {
   }
 };
 
-export async function deleteCardById(id: number, setFlashcards: (cards: Card[]) => void) {
+export async function deleteCardById(id: number, onDelete: () => void) {
   const res = await fetch(`/api/flashcards/deletecard/${id}`, {
     method: 'DELETE',
   });
@@ -133,14 +133,14 @@ export async function deleteCardById(id: number, setFlashcards: (cards: Card[]) 
   if (res.ok) {
     const data = await res.json();
     console.log('Deleted card:', data);
-    getFlashcardList(setFlashcards);
+    onDelete();
   } else {
     const error = await res.json();
     console.error('Error deleting card:', error);
   }
 }
 
-export async function deleteDeckById(id: number, setDecks: (decks: Deck[]) => void) {
+export async function deleteDeckById(id: number, onDelete: () => void) {
   const res = await fetch(`/api/decks/deletedeck/${id}`, {
     method: 'DELETE',
   });
@@ -148,7 +148,7 @@ export async function deleteDeckById(id: number, setDecks: (decks: Deck[]) => vo
   if (res.ok) {
     const data = await res.json();
     console.log('Deleted deck:', data);
-    getDeckList(setDecks);
+    onDelete();
   } else {
     const error = await res.json();
     console.error('Error deleting deck:', error);

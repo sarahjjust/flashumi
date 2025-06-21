@@ -8,18 +8,18 @@ import { Link } from "react-router";
 
 type DeckListProps = {
   decks: Deck[];
-  setDecks: React.Dispatch<React.SetStateAction<Deck[]>>;
+  onUpdate: () => void;
 };
 
-function delDeck(deck: Deck, setDecks: React.Dispatch<React.SetStateAction<Deck[]>>) {
+function delDeck(deck: Deck, onUpdate: ( ) => void) {
   if (deck.id !== null) {
-    deleteDeckById(deck.id, setDecks);
+    deleteDeckById(deck.id, onUpdate);
   }
 }
 
-export function DeckList({decks, setDecks}: DeckListProps) {
+export function DeckList({decks, onUpdate}: DeckListProps) {
   useEffect(() => {
-    getDeckList(setDecks);
+    onUpdate();
   }, []);
   
   if (!decks.length) {
@@ -41,8 +41,8 @@ export function DeckList({decks, setDecks}: DeckListProps) {
                   View
                 </Link>
               </Button>
-              <EditDeckDialog deck={deck} onEdit={() => getDeckList(setDecks)} />
-              <Button onClick={ () => { delDeck(deck, setDecks) } } size="sm" variant="destructive" className="ml-2">
+              <EditDeckDialog deck={deck} onEdit={onUpdate} />
+              <Button onClick={ () => { delDeck(deck, onUpdate) } } size="sm" variant="destructive" className="ml-2">
                 Delete
               </Button>
             </CardFooter>

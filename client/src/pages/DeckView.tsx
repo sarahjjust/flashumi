@@ -29,6 +29,6 @@ export function DeckView() {
     <Button asChild>
       <Link to="/">Home</Link>
     </Button>
-    <FlashcardsInDeckList flashcards={flashcards} setFlashcards={setFlashcards} deckId={id} />
+    <FlashcardsInDeckList flashcards={flashcards} onUpdate={() => getFlashcardListByDeckId(id, setFlashcards)} deckId={id} />
   </div>;
 }

@@ -16,7 +16,7 @@ export function Decks() {
       <Button asChild>
         <Link to="/">Home</Link>
       </Button>
-      <DeckList decks={decks} setDecks={setDecks}/>
+      <DeckList decks={decks} onUpdate={() => getDeckList(setDecks)}/>
     </div>
   );
 }

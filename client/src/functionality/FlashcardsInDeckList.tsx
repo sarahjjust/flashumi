@@ -7,19 +7,19 @@ import { Button } from "@/components/ui/button";
 
 type FlashcardInDeckListProps = {
   flashcards: Card[];
-  setFlashcards: React.Dispatch<React.SetStateAction<Card[]>>;
+  onUpdate: () => void;
   deckId: number;
 };
 
-function delCard(card: Card, setFlashcards: React.Dispatch<React.SetStateAction<Card[]>>) {
+function delCard(card: Card, onUpdate: () => void) {
   if (card.id !== null) {
-    deleteCardById(card.id, setFlashcards);
+    deleteCardById(card.id, onUpdate);
   }
 }
 
-export function FlashcardsInDeckList({flashcards, setFlashcards, deckId}: FlashcardInDeckListProps) {
+export function FlashcardsInDeckList({flashcards, onUpdate, deckId}: FlashcardInDeckListProps) {
   useEffect(() => {
-    getFlashcardListByDeckId(deckId, setFlashcards);
+    getFlashcardListByDeckId(deckId, onUpdate);
   }, []);
   
   if (!flashcards.length) {
@@ -43,7 +43,7 @@ export function FlashcardsInDeckList({flashcards, setFlashcards, deckId}: Flashc
                   Edit
                 </Link>
               </Button>
-              <Button onClick={ () => { delCard(card, setFlashcards) } } size="sm" variant="destructive" className="ml-2">
+              <Button onClick={ () => { delCard(card, onUpdate) } } size="sm" variant="destructive" className="ml-2">
                 Delete
               </Button>
             </CardFooter>
