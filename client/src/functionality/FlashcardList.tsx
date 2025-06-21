@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { deleteCardById, getFlashcardList } from "@/ApiCalls";
+import { deleteCardById } from "@/ApiCalls";
 import type { Card } from "../../../common/types/Card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";

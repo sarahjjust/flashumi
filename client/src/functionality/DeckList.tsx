@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getDeckList, deleteDeckById } from "../ApiCalls";
+import { deleteDeckById } from "../ApiCalls";
 import { Deck } from "../../../common/types/Deck";
 import { Card as CardComponent, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
